@@ -26,5 +26,5 @@ lane :JHMediator do |options|
   # 验证 spec 文件
   pod_lib_lint(verbose: true,allow_warnings: true)
   # pod trunk push 'spec_path'
-  pod_push(path: spec_path, allow_warnings: true)
+  pod_push(path: spec_path, allow_warnings: true,verbose: true)
 end
