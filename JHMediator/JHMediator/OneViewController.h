@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface OneViewController : UIViewController
-
+-(void)getMessage;
++(NSString *)setMessage;
 @end

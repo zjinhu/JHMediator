@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface JHMediator : NSObject
+/////////block参数例子
+//id call = ^(NSString *aa){
+//    NSLog(@"%@",aa);
+//};
+//dic = @{@"callBack":call,@"name":@"test"}
 /**
 * 有Nav情况下push vc
 *

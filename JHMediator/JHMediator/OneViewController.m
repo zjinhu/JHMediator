@@ -24,7 +24,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)getMessage{
+    NSLog(@"----1212");
+}
++(NSString *)setMessage{
+    NSLog(@"----787812");
+    return @"aha";
+}
 /*
 #pragma mark - Navigation
 

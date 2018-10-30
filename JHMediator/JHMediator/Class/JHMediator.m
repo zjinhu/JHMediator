@@ -27,7 +27,20 @@
 
 #pragma mark - 初始化指定名字的VC
 +(id)initVC:(NSString *)vcName{
-    return [self initClassWithName:vcName];
+    id vc = [self initClassWithName:vcName];
+    if (vc) {
+        if ([vc isKindOfClass:[UIViewController class]]) {
+            return vc;
+        }
+        NSString *error = [NSString stringWithFormat:@"Class %@不是controller",vcName];
+        NSLog(@"%@",error);
+        return nil;
+    }else{
+        NSString *error = [NSString stringWithFormat:@"Class %@不存在",vcName];
+        NSLog(@"%@",error);
+        return nil;
+    }
+    return nil;
 }
 #pragma mark - 初始化指定名字的VC 并且给相应的属性赋值
 +(id)initVC:(NSString *)vcName dic:(NSDictionary *)dic{
@@ -48,6 +61,10 @@
 /**  返回类对象 */
 +(id)initClassWithName:(NSString *)name{
     //类名(对象名)
+    if (!name||name.length==0) {
+    NSLog(@"请传入class名");
+    return nil;
+    }
     NSString *class = name;
     const char *className = [class cStringUsingEncoding:NSASCIIStringEncoding];
     Class newClass = objc_getClass(className);
