@@ -34,8 +34,6 @@
     //类方法
     Class class = NSClassFromString(@"OneViewController");
     
-    
-    
     SEL sel     = NSSelectorFromString(@"setMessage");
     NSMethodSignature *ys_methodSignature = [class methodSignatureForSelector:sel];
 
