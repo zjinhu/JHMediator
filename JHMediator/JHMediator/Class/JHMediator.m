@@ -12,22 +12,55 @@
 #import "UIApplication+GetRootVC.h"
 
 @implementation JHMediator
+#pragma mark - 通过URL调起APP内任意页面
++ (void)baseOpenURL:(NSURL *)url{
+    if (url.path.length>0) {
+        NSString *vcName = [url.path substringFromIndex:1];
+        NSDictionary *dic = [self dicFromUrl:url];
+        NSLog(@"vcN:   %@,dic:   %@   host: %@",vcName,dic,url.host);
+        if(url.host && vcName.length>0){
+            if([url.host isEqualToString:@"present"]) {
+                [self basePresent:vcName dic:dic];
+            }else{
+                [self basePush:vcName dic:dic];
+            }
+        }
+    }
+}
+
++ (NSDictionary *)dicFromUrl:(NSURL *)url{
+    NSString *dataStr = [NSString stringWithFormat:@"%@",url.query];
+    if (dataStr.length>0&&[dataStr containsString:@"="]) {
+        NSArray *keyValues = [dataStr componentsSeparatedByString:@"&"];
+        NSMutableDictionary *dic = @{}.mutableCopy;
+        [keyValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [dic setObject:[obj componentsSeparatedByString:@"="].lastObject forKey:[obj componentsSeparatedByString:@"="].firstObject];
+        }];
+        return dic;
+    }
+    return nil;
+}
 #pragma mark - push控制器
 // push控制器
 + (void)basePush:(NSString *)vcName dic:(NSDictionary *)dic{
-    id instance = [self initVC:vcName dic:dic];
-    [[[UIApplication sharedApplication] currentNavigationController] pushViewController:instance animated:YES];
+    UIViewController *instance = [self initVC:vcName dic:dic];
+    if (instance) {
+        instance.hidesBottomBarWhenPushed=YES;
+        [[[UIApplication sharedApplication] currentNavigationController] pushViewController:instance animated:YES];
+    }
 }
 #pragma mark - Present控制器
 + (void)basePresent:(NSString *)vcName dic:(NSDictionary *)dic{
     id instance = [self initVC:vcName dic:dic];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:instance];
-    [[[UIApplication sharedApplication] currentViewController] presentViewController:nav animated:YES completion:nil];
+    if (instance) {
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:instance];
+        [[[UIApplication sharedApplication] currentViewController] presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 #pragma mark - 初始化指定名字的VC
 +(id)initVC:(NSString *)vcName{
-    id vc = [self initClassWithName:vcName];
+    id vc = [self initClass:vcName];
     if (vc) {
         if ([vc isKindOfClass:[UIViewController class]]) {
             return vc;
@@ -45,39 +78,55 @@
 #pragma mark - 初始化指定名字的VC 并且给相应的属性赋值
 +(id)initVC:(NSString *)vcName dic:(NSDictionary *)dic{
     id instance = [self initVC:vcName];
-    //下面是传值－－－－－－－－－－－－－－
-    [dic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if ([self checkIsExistPropertyWithInstance:instance verifyPropertyName:key]) {
-            //kvc给属性赋值
-            NSLog(@"%@,%@",obj,key);
-            [instance setValue:obj forKey:key];
-        }else {
-            NSLog(@"不包含key=%@的属性",key);
-        }
-    }];
+    if (instance) {
+        //下面是传值－－－－－－－－－－－－－－
+        [dic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if ([self checkIsExistPropertyWithInstance:instance verifyPropertyName:key]) {
+                //kvc给属性赋值
+                NSLog(@"%@,%@",obj,key);
+                [instance setValue:obj forKey:key];
+            }else {
+                NSLog(@"不包含key=%@的属性",key);
+            }
+        }];
+    }
     return instance;
 }
 #pragma mark - 初始化指定名字的类
 /**  返回类对象 */
-+(id)initClassWithName:(NSString *)name{
++(id)initClass:(NSString *)name{
     //类名(对象名)
     if (!name||name.length==0) {
-    NSLog(@"请传入class名");
-    return nil;
+        NSLog(@"请传入class名");
+        return nil;
     }
     NSString *class = name;
     const char *className = [class cStringUsingEncoding:NSASCIIStringEncoding];
     Class newClass = objc_getClass(className);
     if (!newClass) {
-        //创建一个类
-        Class superClass = [NSObject class];
-        newClass = objc_allocateClassPair(superClass, className, 0);
-        //注册你创建的这个类
-        objc_registerClassPair(newClass);
+        return nil;
     }
     // 创建对象(写到这里已经可以进行随机页面跳转了)
     return [[newClass alloc] init];
 }
+
++(id)initClass:(NSString *)name dic:(NSDictionary *)dic{
+    id instance = [self initClass:name];
+    if (instance) {
+        //下面是传值－－－－－－－－－－－－－－
+        [dic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if ([self checkIsExistPropertyWithInstance:instance verifyPropertyName:key]) {
+                //kvc给属性赋值
+                NSLog(@"%@,%@",obj,key);
+                [instance setValue:obj forKey:key];
+            }else {
+                NSLog(@"不包含key=%@的属性",key);
+            }
+        }];
+    }
+    return instance;
+}
+
 #pragma mark - 检测对象是否存在该属性
 /**
  *  检测对象是否存在该属性
