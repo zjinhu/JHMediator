@@ -59,7 +59,7 @@
 }
 
 #pragma mark - 初始化指定名字的VC
-+(id)initVC:(NSString *)vcName{
++ (id)initVC:(NSString *)vcName{
     id vc = [self initClass:vcName];
     if (vc) {
         if ([vc isKindOfClass:[UIViewController class]]) {
@@ -76,7 +76,7 @@
     return nil;
 }
 #pragma mark - 初始化指定名字的VC 并且给相应的属性赋值
-+(id)initVC:(NSString *)vcName dic:(NSDictionary *)dic{
++ (id)initVC:(NSString *)vcName dic:(NSDictionary *)dic{
     id instance = [self initVC:vcName];
     if (instance) {
         //下面是传值－－－－－－－－－－－－－－
@@ -94,7 +94,7 @@
 }
 #pragma mark - 初始化指定名字的类
 /**  返回类对象 */
-+(id)initClass:(NSString *)name{
++ (id)initClass:(NSString *)name{
     //类名(对象名)
     if (!name||name.length==0) {
         NSLog(@"请传入class名");
@@ -110,7 +110,7 @@
     return [[newClass alloc] init];
 }
 
-+(id)initClass:(NSString *)name dic:(NSDictionary *)dic{
++ (id)initClass:(NSString *)name dic:(NSDictionary *)dic{
     id instance = [self initClass:name];
     if (instance) {
         //下面是传值－－－－－－－－－－－－－－
@@ -126,7 +126,6 @@
     }
     return instance;
 }
-
 #pragma mark - 检测对象是否存在该属性
 /**
  *  检测对象是否存在该属性
@@ -166,6 +165,124 @@
     free(properties2); //释放数组
     return NO;
 }
+
+#pragma mark - 消息转发调用方法
+
+/**
+ *调用某个类中的实例方法
+ */
++ (id)actionMethodFromObj:(id)objc Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+    return  [self msgSendToObj:objc Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
+}
+
++ (id)msgSendToObj:(id)obj Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+    ///注释:老方式,限制传递参数个数
+    //    id returnValue = nil;
+    //    NSInteger paramsCount = params.count;
+    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
+    //    //
+    //    while (params_M.count < 5) {
+    //        [params_M addObject:@""];
+    //    }
+    //    params = params_M;
+    //    //
+    //    if (obj && selector && [obj respondsToSelector:selector] && paramsCount <= 5) {
+    //        if (needReturn) {
+    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (obj, selector, params[0], params[1], params[2], params[3], params[4]);
+    //        }else{
+    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(obj, selector,  params[0], params[1], params[2], params[3], params[4]);
+    //        }
+    //    }
+    //    return returnValue;
+    id value = nil;
+    if (obj && selector) {
+        if ([obj respondsToSelector:selector]) {
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[obj class] instanceMethodSignatureForSelector:selector]];
+            [invocation setSelector:selector];
+            [invocation setTarget:obj];
+            for (int i=0; i < params.count; i++) {
+                id ref = params[i];
+                [invocation setArgument:&ref atIndex:2+i];
+            }
+            [invocation invoke];//perform 的传参表达方式
+            if(needReturn){//获得返回值
+                void *vvl = nil;
+                [invocation getReturnValue:&vvl];
+                value = (__bridge id)vvl;
+            }
+        }else{
+#ifdef DEBUG
+            NSLog(@"msgToTarget unRespondsToSelector -->>> %@",obj);
+#endif
+        }
+    }
+    return value;
+}
+/**
+ *调用某个类中的类方法idz
+ */
++ (id)actionMethodFromClass:(NSString *)className Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+    return  [self msgSendToClass:NSClassFromString(className) Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
+}
++ (id)msgSendToClass:(Class)cClass Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+    ///注释:老方式,限制传递参数个数
+    //    id returnValue = nil;
+    //    NSInteger paramsCount = params.count;
+    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
+    //    //
+    //    while (params_M.count < 5) {
+    //        [params_M addObject:@""];
+    //    }
+    //    params = params_M;
+    //    //
+    //    Method method = class_getClassMethod(cClass, selector);
+    //    //
+    //    if (cClass && selector && (int)method != 0 && paramsCount <= 5) {
+    //        if (needReturn) {
+    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (cClass, selector, params[0], params[1], params[2], params[3], params[4]);
+    //        }else{
+    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(cClass, selector,  params[0], params[1], params[2], params[3], params[4]);
+    //        }
+    //    }
+    //    return returnValue;
+    id value = nil;
+    Method method = class_getClassMethod(cClass, selector);
+    if((int)method != 0){
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[cClass methodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:cClass];
+        for (int i=0; i < params.count; i++) {
+            id ref = params[i];
+            [invocation setArgument:&ref atIndex:2+i];
+        }
+        [invocation invoke];//perform 的传参表达方式
+        if(needReturn){//获得返回值
+            void *vvl = nil;
+            [invocation getReturnValue:&vvl];
+            value = (__bridge id)vvl;
+        }
+    }else{
+#ifdef DEBUG
+        NSLog(@"msgToClass unRespondsToSelector -->>> %@ %@",cClass,method);
+#endif
+    }
+    return value;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #pragma mark - 获取本类所有 ‘属性‘ 的数组
 /** 程序运行的时候动态的获取当前类的属性列表
