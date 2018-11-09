@@ -168,47 +168,145 @@
 
 #pragma mark - 消息转发调用方法
 
+///**
+// *调用某个类中的实例方法
+// */
+//+ (id)actionMethodFromObj:(id)objc Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+//    return  [self msgSendToObj:objc Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
+//}
+//
+//+ (id)msgSendToObj:(id)obj Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+//    ///注释:老方式,限制传递参数个数
+//    //    id returnValue = nil;
+//    //    NSInteger paramsCount = params.count;
+//    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
+//    //    //
+//    //    while (params_M.count < 5) {
+//    //        [params_M addObject:@""];
+//    //    }
+//    //    params = params_M;
+//    //    //
+//    //    if (obj && selector && [obj respondsToSelector:selector] && paramsCount <= 5) {
+//    //        if (needReturn) {
+//    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (obj, selector, params[0], params[1], params[2], params[3], params[4]);
+//    //        }else{
+//    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(obj, selector,  params[0], params[1], params[2], params[3], params[4]);
+//    //        }
+//    //    }
+//    //    return returnValue;
+//    id value = nil;
+//    if (obj && selector) {
+//        if ([obj respondsToSelector:selector]) {
+//            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[obj class] instanceMethodSignatureForSelector:selector]];
+//            [invocation setSelector:selector];
+//            [invocation setTarget:obj];
+//            for (int i=0; i < params.count; i++) {
+//                id ref = params[i];
+//                [invocation setArgument:&ref atIndex:2+i];
+//            }
+//            [invocation invoke];//perform 的传参表达方式
+//            if(needReturn){//获得返回值
+//                void *vvl = nil;
+//                [invocation getReturnValue:&vvl];
+//                value = (__bridge id)vvl;
+//            }
+//        }else{
+//#ifdef DEBUG
+//            NSLog(@"msgToTarget unRespondsToSelector -->>> %@",obj);
+//#endif
+//        }
+//    }
+//    return value;
+//}
+///**
+// *调用某个类中的类方法idz
+// */
+//+ (id)actionMethodFromClass:(NSString *)className Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+//    return  [self msgSendToClass:NSClassFromString(className) Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
+//}
+//+ (id)msgSendToClass:(Class)cClass Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
+//    ///注释:老方式,限制传递参数个数
+//    //    id returnValue = nil;
+//    //    NSInteger paramsCount = params.count;
+//    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
+//    //    //
+//    //    while (params_M.count < 5) {
+//    //        [params_M addObject:@""];
+//    //    }
+//    //    params = params_M;
+//    //    //
+//    //    Method method = class_getClassMethod(cClass, selector);
+//    //    //
+//    //    if (cClass && selector && (int)method != 0 && paramsCount <= 5) {
+//    //        if (needReturn) {
+//    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (cClass, selector, params[0], params[1], params[2], params[3], params[4]);
+//    //        }else{
+//    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(cClass, selector,  params[0], params[1], params[2], params[3], params[4]);
+//    //        }
+//    //    }
+//    //    return returnValue;
+//    id value = nil;
+//    Method method = class_getClassMethod(cClass, selector);
+//    if((int)method != 0){
+//        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[cClass methodSignatureForSelector:selector]];
+//        [invocation setSelector:selector];
+//        [invocation setTarget:cClass];
+//        for (int i=0; i < params.count; i++) {
+//            id ref = params[i];
+//            [invocation setArgument:&ref atIndex:2+i];
+//        }
+//        [invocation invoke];//perform 的传参表达方式
+//        if(needReturn){//获得返回值
+//            void *vvl = nil;
+//            [invocation getReturnValue:&vvl];
+//            value = (__bridge id)vvl;
+//        }
+//    }else{
+//#ifdef DEBUG
+//        NSLog(@"msgToClass unRespondsToSelector -->>> %@ %@",cClass,method);
+//#endif
+//    }
+//    return value;
+//}
+
 /**
  *调用某个类中的实例方法
  */
-+ (id)actionMethodFromObj:(id)objc Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
-    return  [self msgSendToObj:objc Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
++ (id)actionMethodFromObj:(id)objc Selector:(NSString *)selector Prarms:(NSArray*)params{
+    return  [self msgSendToObj:objc Selector:NSSelectorFromString(selector) Prarms:params];
 }
 
-+ (id)msgSendToObj:(id)obj Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
-    ///注释:老方式,限制传递参数个数
-    //    id returnValue = nil;
-    //    NSInteger paramsCount = params.count;
-    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
-    //    //
-    //    while (params_M.count < 5) {
-    //        [params_M addObject:@""];
-    //    }
-    //    params = params_M;
-    //    //
-    //    if (obj && selector && [obj respondsToSelector:selector] && paramsCount <= 5) {
-    //        if (needReturn) {
-    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (obj, selector, params[0], params[1], params[2], params[3], params[4]);
-    //        }else{
-    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(obj, selector,  params[0], params[1], params[2], params[3], params[4]);
-    //        }
-    //    }
-    //    return returnValue;
++ (id)msgSendToObj:(id)obj Selector:(SEL)selector Prarms:(NSArray*)params{
+    
     id value = nil;
     if (obj && selector) {
         if ([obj respondsToSelector:selector]) {
-            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[obj class] instanceMethodSignatureForSelector:selector]];
+            NSMethodSignature * signature = [[obj class] instanceMethodSignatureForSelector:selector];
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
             [invocation setSelector:selector];
             [invocation setTarget:obj];
-            for (int i=0; i < params.count; i++) {
+            
+            // 这里判断参数个数 与 params参数是否相等
+            NSInteger paramCount = signature.numberOfArguments;
+            if(params.count != paramCount - 2) {
+                return nil;
+            }
+            
+            // 设置参数
+            for(int i = 0; i < paramCount - 2; i++) {
                 id ref = params[i];
-                [invocation setArgument:&ref atIndex:2+i];
+                if([ref isKindOfClass:[NSNull class]]) {
+                    ref = nil;
+                }
+                
+                // 设置参数
+                [self setMethodArgument:invocation signature:signature param:ref atIndex:i + 2];
             }
             [invocation invoke];//perform 的传参表达方式
-            if(needReturn){//获得返回值
-                void *vvl = nil;
-                [invocation getReturnValue:&vvl];
-                value = (__bridge id)vvl;
+            
+            // 返回值
+            if(signature.methodReturnLength != 0){
+                return [self getMethodArgument:invocation signature:signature];
             }
         }else{
 #ifdef DEBUG
@@ -221,45 +319,40 @@
 /**
  *调用某个类中的类方法idz
  */
-+ (id)actionMethodFromClass:(NSString *)className Selector:(NSString *)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
-    return  [self msgSendToClass:NSClassFromString(className) Selector:NSSelectorFromString(selector) Prarms:params NeedReturn:needReturn];
++ (id)actionMethodFromClass:(NSString *)className Selector:(NSString *)selector Prarms:(NSArray*)params{
+    return  [self msgSendToClass:NSClassFromString(className) Selector:NSSelectorFromString(selector) Prarms:params];
 }
-+ (id)msgSendToClass:(Class)cClass Selector:(SEL)selector Prarms:(NSArray*)params NeedReturn:(BOOL)needReturn{
-    ///注释:老方式,限制传递参数个数
-    //    id returnValue = nil;
-    //    NSInteger paramsCount = params.count;
-    //    NSMutableArray *params_M = [NSMutableArray arrayWithArray:params];
-    //    //
-    //    while (params_M.count < 5) {
-    //        [params_M addObject:@""];
-    //    }
-    //    params = params_M;
-    //    //
-    //    Method method = class_getClassMethod(cClass, selector);
-    //    //
-    //    if (cClass && selector && (int)method != 0 && paramsCount <= 5) {
-    //        if (needReturn) {
-    //            returnValue = ((id (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend) (cClass, selector, params[0], params[1], params[2], params[3], params[4]);
-    //        }else{
-    //            ((void (*) (id, SEL, id, id , id, id, id)) (void *)objc_msgSend)(cClass, selector,  params[0], params[1], params[2], params[3], params[4]);
-    //        }
-    //    }
-    //    return returnValue;
++ (id)msgSendToClass:(Class)cClass Selector:(SEL)selector Prarms:(NSArray*)params{
+    
     id value = nil;
     Method method = class_getClassMethod(cClass, selector);
     if((int)method != 0){
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[cClass methodSignatureForSelector:selector]];
+        NSMethodSignature * signature = [cClass methodSignatureForSelector:selector];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         [invocation setSelector:selector];
         [invocation setTarget:cClass];
-        for (int i=0; i < params.count; i++) {
+        
+        // 这里判断参数个数 与 params参数是否相等
+        NSInteger paramCount = signature.numberOfArguments;
+        if(params.count != paramCount - 2) {
+            return nil;
+        }
+        
+        // 设置参数
+        for(int i = 0; i < paramCount - 2; i++) {
             id ref = params[i];
-            [invocation setArgument:&ref atIndex:2+i];
+            if([ref isKindOfClass:[NSNull class]]) {
+                ref = nil;
+            }
+            
+            // 设置参数
+            [self setMethodArgument:invocation signature:signature param:ref atIndex:i + 2];
         }
         [invocation invoke];//perform 的传参表达方式
-        if(needReturn){//获得返回值
-            void *vvl = nil;
-            [invocation getReturnValue:&vvl];
-            value = (__bridge id)vvl;
+        
+        // 返回值
+        if(signature.methodReturnLength != 0){
+            return [self getMethodArgument:invocation signature:signature];
         }
     }else{
 #ifdef DEBUG
@@ -270,19 +363,55 @@
 }
 
 
+// 设置函数参数
++ (void)setMethodArgument:(NSInvocation *)invocation signature:(NSMethodSignature *)signature param:(id)param atIndex:(NSInteger)index {
+    const char * paramType = [signature getArgumentTypeAtIndex:index];
+    
+    if(!strcmp(paramType, @encode(id))) {
+        [invocation setArgument:&param atIndex:index];
+    }else if(!strcmp(paramType, @encode(void (^)(void)))) {
+        // block
+        [invocation setArgument:&param atIndex:index];
+    }else {
+        // 不确定类型，C数组、联合、结构体 等
+        NSUInteger valueSize = 0;
+        NSGetSizeAndAlignment(paramType, &valueSize, NULL);
+        
+        void * par = NULL;
+        par = reallocf(par, valueSize);
+        if (@available(iOS 11.0, *)) {
+            [param getValue:par size:valueSize];
+        } else {
+            // Fallback on earlier versions
+            [param getValue:par];
+        }
+        
+        [invocation setArgument:par atIndex:index];
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+// 获取方法返回值
++ (id)getMethodArgument:(NSInvocation *)invocation signature:(NSMethodSignature *)signature {
+    id returnValue = nil;
+    const char * paramType = signature.methodReturnType;
+    
+    if(!strcmp(paramType, @encode(id))) {
+        [invocation getReturnValue:&returnValue];
+    }else if(!strcmp(paramType, @encode(void (^)(void)))) {
+        [invocation getReturnValue:&returnValue];
+    }else {
+        // 不确定类型，C数组、联合、结构体 等
+        NSUInteger valueSize = 0;
+        NSGetSizeAndAlignment(paramType, &valueSize, NULL);
+        
+        void * par = NULL;
+        par = reallocf(par, valueSize);
+        [invocation getReturnValue:par];
+        returnValue = [NSValue valueWithBytes:par objCType:paramType];
+    }
+    
+    return returnValue;
+}
 
 #pragma mark - 获取本类所有 ‘属性‘ 的数组
 /** 程序运行的时候动态的获取当前类的属性列表
