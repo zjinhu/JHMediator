@@ -27,6 +27,8 @@ if (@available(iOS 11.0, *)) {\
 #import <Foundation/Foundation.h>
 
 @interface JHMediator : NSObject
+
+
 //根据URL进行跳转页面    ***://push/WebViewController?ios=123&name=456 (注意传递的参数名)|| ***://present/WebViewController
 //必须添加打开方式 push||present
 //无法实现回调 某些页面传递对象model类型参数的需要修改为字典类型
@@ -34,9 +36,8 @@ if (@available(iOS 11.0, *)) {\
 
 
 + (void)baseOpenURL:(NSURL *)url;
-///从URL拼接的参数转换成字典
-+ (NSDictionary *)dicFromUrl:(NSURL *)url;
-
+///从URL拼接的参数转换成字典////根据ios=123&name=456格式转换
++ (NSDictionary *)getDicFromString:(NSString *)string;
 
 /////////block参数例子
 //id call = ^(NSString *aa){

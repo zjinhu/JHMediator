@@ -16,7 +16,7 @@
 + (void)baseOpenURL:(NSURL *)url{
     if (url.path.length>0) {
         NSString *vcName = [url.path substringFromIndex:1];
-        NSDictionary *dic = [self dicFromUrl:url];
+        NSDictionary *dic = [self getDicFromString:url.query];
         NSLog(@"vcN:   %@,dic:   %@   host: %@",vcName,dic,url.host);
         if(url.host && vcName.length>0){
             if([url.host isEqualToString:@"present"]) {
@@ -28,10 +28,9 @@
     }
 }
 
-+ (NSDictionary *)dicFromUrl:(NSURL *)url{
-    NSString *dataStr = [NSString stringWithFormat:@"%@",url.query];
-    if (dataStr.length>0&&[dataStr containsString:@"="]) {
-        NSArray *keyValues = [dataStr componentsSeparatedByString:@"&"];
++ (NSDictionary *)getDicFromString:(NSString *)string{
+    if (string.length>0&&[string containsString:@"="]) {
+        NSArray *keyValues = [string componentsSeparatedByString:@"&"];
         NSMutableDictionary *dic = @{}.mutableCopy;
         [keyValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [dic setObject:[obj componentsSeparatedByString:@"="].lastObject forKey:[obj componentsSeparatedByString:@"="].firstObject];
