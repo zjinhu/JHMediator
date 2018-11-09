@@ -36,7 +36,7 @@ if (@available(iOS 11.0, *)) {\
 
 
 + (void)baseOpenURL:(NSURL *)url;
-///从URL拼接的参数转换成字典////根据ios=123&name=456格式转换
+///从URL拼接的参数转换成字典//根据ios=123&name=456格式转换
 + (NSDictionary *)getDicFromString:(NSString *)string;
 
 /////////block参数例子
