@@ -1,12 +1,12 @@
 # JHMediator
-runtime调用VC，可以不引用VC头文件直接初始化或者PUSH Present，可做组件化调用解耦中间件
+runtime调用VC，可以不引用头文件直接初始化任意类例如model，VC或者直接PUSH Present VC，或者调用类方法实例方法（有回调，可以block），可做组件化调用解耦中间件，不用添加注册表，方便易用
 
 ##API
 ```objc
 
 //根据URL进行跳转页面    ***://push/WebViewController?ios=123&name=456 (注意传递的参数名)|| ***://present/WebViewController
 //必须添加打开方式 push||present
-//无法实现回调 某些页面传递对象model类型参数的需要修改为字典类型
+//可以实现回调 传值可以是任意类型
 //可以实现 推送打开,H5跳转,其他APP调起 任意页面   冒号前前缀外部APP调起需要填写APP的urlscheme  app内调用可随意填写
 
 
@@ -70,17 +70,17 @@ runtime调用VC，可以不引用VC头文件直接初始化或者PUSH Present，
                      Prarms:(NSArray*)params;
                      
 ```
-## 使用方法
+## 使用方法，详见DEMO
  
 ```objc
     [JHMediator basePresent:@"OneViewController" dic:nil];
-    
-    [JHMediator getMethodListWithName:@"ViewController"]
 
     UIViewController *vc = [JHMediator initVC:@"OneViewController"];
     [self presentViewController:vc animated:YES completion:^{ }];
 
     [JHMediator basePush:@"OneViewController" dic:nil];
+    
+    [JHMediator actionMethodFromObj:obj Selector:@"showFromControlle:body:" Prarms:@[self,body]];
     
     添加路由，通过URL跳转到工程的任意页面可以不用注册URLSchemes
     添加调用任意类别任意方法的函数，支持任意类型参数传参以及回调返回值，详见DEMO
