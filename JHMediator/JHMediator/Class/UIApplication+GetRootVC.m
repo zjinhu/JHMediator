@@ -18,8 +18,11 @@
     return [self getCurrentViewControllerFrom:rootViewController];
 }
 
+#pragma mark - 获取当前显示的VC
 - (UIViewController *) getCurrentViewControllerFrom:(UIViewController *) vc {
-    if ([vc isKindOfClass:[UINavigationController class]]) {
+    if([vc isKindOfClass:[UISplitViewController class]]) {
+        return [self getCurrentViewControllerFrom:((UISplitViewController*) vc).viewControllers.lastObject];
+    } else if ([vc isKindOfClass:[UINavigationController class]]) {
         return [self getCurrentViewControllerFrom:[((UINavigationController *) vc) visibleViewController]];
     } else if ([vc isKindOfClass:[UITabBarController class]]) {
         return [self getCurrentViewControllerFrom:[((UITabBarController *) vc) selectedViewController]];
@@ -30,9 +33,7 @@
             return vc;
         }
     }
-    
 }
-
 - (UINavigationController *)currentNavigationController {
     return [[self currentViewController] navigationController];
 }
