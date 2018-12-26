@@ -10,6 +10,10 @@
 
 @implementation UIApplication (GetRootVC)
 - (UIWindow *)mainWindow {
+    UIWindow *window =  [[self windows] lastObject];
+    if(window && !window.hidden){
+        return window;
+    }
     return self.delegate.window;
 }
 
@@ -39,24 +43,27 @@
     } else if( [vc isKindOfClass:[UISplitViewController class]]) {
         // Return right hand side
         UISplitViewController *svc = (UISplitViewController*) vc;
-        if (svc.viewControllers.count > 0)
+        if (svc.viewControllers.count > 0){
             return [self getCurrentViewControllerFrom:svc.viewControllers.lastObject];
-        else
+        }else{
             return vc;
+        }
     } else if ([vc isKindOfClass:[UINavigationController class]]) {
         // Return top view
         UINavigationController *svc = (UINavigationController*) vc;
-        if (svc.viewControllers.count > 0)
+        if (svc.viewControllers.count > 0){
             return [self getCurrentViewControllerFrom:svc.topViewController];
-        else
+        }else{
             return vc;
+        }
     } else if ([vc isKindOfClass:[UITabBarController class]]) {
         // Return visible view
         UITabBarController *svc = (UITabBarController*) vc;
-        if (svc.viewControllers.count > 0)
+        if (svc.viewControllers.count > 0){
             return [self getCurrentViewControllerFrom:svc.selectedViewController];
-        else
+        }else{
             return vc;
+        }
     } else {
         // Unknown view controller type, return last child view controller
         return vc;
