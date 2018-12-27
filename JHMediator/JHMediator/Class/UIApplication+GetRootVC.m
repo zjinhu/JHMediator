@@ -10,10 +10,6 @@
 
 @implementation UIApplication (GetRootVC)
 - (UIWindow *)mainWindow {
-    UIWindow *window =  [[self windows] lastObject];
-    if(window && !window.hidden){
-        return window;
-    }
     return self.delegate.window;
 }
 
