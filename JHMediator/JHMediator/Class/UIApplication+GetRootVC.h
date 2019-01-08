@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIApplication (GetRootVC)
+- (UIWindow *)mainWindow;
 //当前控制器
 - (UIViewController *)currentViewController;
 //当前nav
