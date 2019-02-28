@@ -8,9 +8,7 @@
 
 #import "JHMediator.h"
 #import <objc/runtime.h>
-
-#import "UIApplication+GetRootVC.h"
-
+#import <objc/message.h>
 @implementation JHMediator
 #pragma mark - 通过URL调起APP内任意页面
 + (void)baseOpenURL:(NSURL *)url{
@@ -64,12 +62,10 @@
         if ([vc isKindOfClass:[UIViewController class]]) {
             return vc;
         }
-        NSString *error = [NSString stringWithFormat:@"Class %@不是controller",vcName];
-        NSLog(@"%@",error);
+        [self alertMessage:[NSString stringWithFormat:@"Class %@不是controller",vcName]];
         return nil;
     }else{
-        NSString *error = [NSString stringWithFormat:@"Class %@不存在",vcName];
-        NSLog(@"%@",error);
+        [self alertMessage:[NSString stringWithFormat:@"Class %@不存在",vcName]];
         return nil;
     }
     return nil;
@@ -96,7 +92,7 @@
 + (id)initClass:(NSString *)name{
     //类名(对象名)
     if (!name||name.length==0) {
-        NSLog(@"请传入class名");
+        [self alertMessage:@"请传入class名"];
         return nil;
     }
     NSString *class = name;
@@ -590,4 +586,10 @@ const char *jh_getProtocolListKey = "jh_getProtocolListKey";
     return objc_getAssociatedObject(self, jh_getProtocolListKey);
 }
 
++(void)alertMessage:(NSString *)message{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) { }];
+    [alertController addAction:cancelAction];
+    [[[UIApplication sharedApplication] currentViewController] presentViewController:alertController animated:YES completion:^{ }];
+}
 @end
