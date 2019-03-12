@@ -1,7 +1,7 @@
  
 Pod::Spec.new do |s|
   s.name             = 'JHMediator'
-  s.version          = '1.2.0'
+  s.version          = '1.3.0'
   s.summary          = '组件化中间件.'
  
   s.description      = <<-DESC
