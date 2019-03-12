@@ -387,7 +387,7 @@
 
 // 获取方法返回值
 + (id)getMethodArgument:(NSInvocation *)invocation signature:(NSMethodSignature *)signature {
-    id returnValue = nil;
+    void * returnValue = nil;
     const char * paramType = signature.methodReturnType;
     
     if(!strcmp(paramType, @encode(id))) {
@@ -402,10 +402,9 @@
         void * par = NULL;
         par = reallocf(par, valueSize);
         [invocation getReturnValue:par];
-        returnValue = [NSValue valueWithBytes:par objCType:paramType];
+        returnValue = (__bridge void *)([NSValue valueWithBytes:par objCType:paramType]);
     }
-    
-    return returnValue;
+    return (__bridge id)(returnValue);
 }
 
 #pragma mark - 获取本类所有 ‘属性‘ 的数组
