@@ -16,6 +16,8 @@
 		8574B6E520FF270B00F3EB05 /* JHMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8574B6E420FF270B00F3EB05 /* JHMediator.m */; };
 		8574B6E820FF278000F3EB05 /* UIApplication+GetRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8574B6E720FF278000F3EB05 /* UIApplication+GetRootVC.m */; };
 		8574B6EB20FF27C500F3EB05 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8574B6EA20FF27C500F3EB05 /* OneViewController.m */; };
+		9191B7AD223B529600A42CD9 /* AppDelegateMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9191B7AC223B529600A42CD9 /* AppDelegateMediator.m */; };
+		9191B7B0223B548800A42CD9 /* TModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9191B7AF223B548800A42CD9 /* TModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,10 @@
 		8574B6E720FF278000F3EB05 /* UIApplication+GetRootVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+GetRootVC.m"; sourceTree = "<group>"; };
 		8574B6E920FF27C500F3EB05 /* OneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
 		8574B6EA20FF27C500F3EB05 /* OneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
+		9191B7AB223B529600A42CD9 /* AppDelegateMediator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegateMediator.h; sourceTree = "<group>"; };
+		9191B7AC223B529600A42CD9 /* AppDelegateMediator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegateMediator.m; sourceTree = "<group>"; };
+		9191B7AE223B548800A42CD9 /* TModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TModule.h; sourceTree = "<group>"; };
+		9191B7AF223B548800A42CD9 /* TModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +78,8 @@
 				8574B6CD20FF26DC00F3EB05 /* AppDelegate.m */,
 				8574B6CF20FF26DC00F3EB05 /* ViewController.h */,
 				8574B6D020FF26DC00F3EB05 /* ViewController.m */,
+				9191B7AE223B548800A42CD9 /* TModule.h */,
+				9191B7AF223B548800A42CD9 /* TModule.m */,
 				8574B6E920FF27C500F3EB05 /* OneViewController.h */,
 				8574B6EA20FF27C500F3EB05 /* OneViewController.m */,
 				8574B6D220FF26DC00F3EB05 /* Main.storyboard */,
@@ -88,6 +96,8 @@
 			children = (
 				8574B6E320FF270B00F3EB05 /* JHMediator.h */,
 				8574B6E420FF270B00F3EB05 /* JHMediator.m */,
+				9191B7AB223B529600A42CD9 /* AppDelegateMediator.h */,
+				9191B7AC223B529600A42CD9 /* AppDelegateMediator.m */,
 				8574B6E620FF278000F3EB05 /* UIApplication+GetRootVC.h */,
 				8574B6E720FF278000F3EB05 /* UIApplication+GetRootVC.m */,
 			);
@@ -164,11 +174,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9191B7AD223B529600A42CD9 /* AppDelegateMediator.m in Sources */,
 				8574B6D120FF26DC00F3EB05 /* ViewController.m in Sources */,
 				8574B6DC20FF26E300F3EB05 /* main.m in Sources */,
 				8574B6E520FF270B00F3EB05 /* JHMediator.m in Sources */,
 				8574B6EB20FF27C500F3EB05 /* OneViewController.m in Sources */,
 				8574B6E820FF278000F3EB05 /* UIApplication+GetRootVC.m in Sources */,
+				9191B7B0223B548800A42CD9 /* TModule.m in Sources */,
 				8574B6CE20FF26DC00F3EB05 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

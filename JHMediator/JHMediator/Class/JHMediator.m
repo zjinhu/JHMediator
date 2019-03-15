@@ -98,7 +98,8 @@
     NSString *class = name;
     const char *className = [class cStringUsingEncoding:NSASCIIStringEncoding];
     Class newClass = objc_getClass(className);
-    if (!newClass) {
+    if (!newClass) { 
+        NSLog(@"Class %@不存在",name);
         return nil;
     }
     // 创建对象(写到这里已经可以进行随机页面跳转了)

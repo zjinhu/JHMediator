@@ -24,8 +24,8 @@ if (@available(iOS 11.0, *)) {\
 (*((Type *)par));\
 })\
 
-#import <Foundation/Foundation.h>
 #import "UIApplication+GetRootVC.h"
+#import "AppDelegateMediator.h"
 @interface JHMediator : NSObject
 
 
