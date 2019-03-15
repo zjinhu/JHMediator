@@ -19,6 +19,7 @@
     // Override point for customization after application launch.
     [[AppDelegateMediator sharedInstance] registerModuleWithClass:@"TModule"];
     [[AppDelegateMediator sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+     [[AppDelegateMediator sharedInstance] removeModuleWithClass:@"TModule"];
     return YES;
 }
 

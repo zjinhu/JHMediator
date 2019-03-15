@@ -35,6 +35,15 @@
     }
 }
 
+-(void)removeModuleWithClass:(NSString *)className{
+    [self.classes enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *class = [NSString stringWithFormat:@"%s",object_getClassName(obj)];
+        if ([className isEqualToString:class]) {
+            [self.classes removeObject:obj];
+        }
+    }];
+}
+
 #pragma mark - getters and setters
 
 - (NSMutableArray*)classes {

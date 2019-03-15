@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AppDelegateMediator : NSObject<UIApplicationDelegate>
 + (instancetype)sharedInstance;
 - (void)registerModuleWithClass:(NSString *)className;
+- (void)removeModuleWithClass:(NSString *)className;
 @end
 
 NS_ASSUME_NONNULL_END
