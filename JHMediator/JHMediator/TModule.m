@@ -14,6 +14,7 @@
 {
     // Override point for customization after application launch.
     NSLog(@"qweqweqwe");
+
     return YES;
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
