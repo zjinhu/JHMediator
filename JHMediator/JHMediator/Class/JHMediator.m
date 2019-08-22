@@ -46,6 +46,14 @@
         [[[UIApplication sharedApplication] currentNavigationController] pushViewController:instance animated:YES];
     }
 }
++ (void)basePush:(UIViewController *)fromVC toName:(NSString *)vcName dic:(NSDictionary *)dic{
+    UIViewController *instance = [self initVC:vcName dic:dic];
+    if (instance && fromVC) {
+        instance.hidesBottomBarWhenPushed=YES;
+        [fromVC.navigationController pushViewController:instance animated:YES];
+    }
+
+}
 #pragma mark - Present控制器
 + (void)basePresent:(NSString *)vcName dic:(NSDictionary *)dic{
     id instance = [self initVC:vcName dic:dic];
@@ -54,7 +62,13 @@
         [[[UIApplication sharedApplication] currentViewController] presentViewController:nav animated:YES completion:nil];
     }
 }
-
++ (void)basePresent:(UIViewController *)fromVC toName:(NSString *)vcName dic:(NSDictionary *)dic{
+    id instance = [self initVC:vcName dic:dic];
+    if (instance && fromVC) {
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:instance];
+        [fromVC presentViewController:nav animated:YES completion:nil];
+    }
+}
 #pragma mark - 初始化指定名字的VC
 + (id)initVC:(NSString *)vcName{
     id vc = [self initClass:vcName];

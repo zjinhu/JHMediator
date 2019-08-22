@@ -50,11 +50,15 @@ if (@available(iOS 11.0, *)) {\
  *
  */
 + (void)basePush:(NSString *)vcName dic:(NSDictionary *)dic;
+
++ (void)basePush:(UIViewController *)fromVC toName:(NSString *)vcName dic:(NSDictionary *)dic;
 /**
  * 当前VC Present一个有NAV的VC
  *
  */
 + (void)basePresent:(NSString *)vcName dic:(NSDictionary *)dic;
+
++ (void)basePresent:(UIViewController *)fromVC toName:(NSString *)vcName dic:(NSDictionary *)dic;
 /**
  *  初始化指定名字的类
  *
