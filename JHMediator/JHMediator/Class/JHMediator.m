@@ -59,6 +59,9 @@
     id instance = [self initVC:vcName dic:dic];
     if (instance) {
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:instance];
+        nav.navigationBar.barTintColor = [UIColor whiteColor];
+        nav.navigationBar.backgroundColor = [UIColor whiteColor];
+        nav.navigationBar.translucent = NO;
         [[[UIApplication sharedApplication] currentViewController] presentViewController:nav animated:YES completion:nil];
     }
 }
@@ -66,6 +69,9 @@
     id instance = [self initVC:vcName dic:dic];
     if (instance && fromVC) {
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:instance];
+        nav.navigationBar.barTintColor = [UIColor whiteColor];
+        nav.navigationBar.backgroundColor = [UIColor whiteColor];
+        nav.navigationBar.translucent = NO;
         [fromVC presentViewController:nav animated:YES completion:nil];
     }
 }
