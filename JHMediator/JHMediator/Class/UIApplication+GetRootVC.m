@@ -10,13 +10,13 @@
 
 @implementation UIApplication (GetRootVC)
 - (UIWindow *)mainWindow {
-//    if (@available(iOS 13, *)) {
+    //适配iOS13的 SceneDelegate， AppDelegate添加 @property (strong, nonatomic) UIWindow *window;
     for (UIWindow * obj in self.windows) {
         if ([obj isKeyWindow]) {
             return obj;
         }
     }
-//       return self.delegate.window;
+    return self.delegate.window;
 }
 
 - (UIViewController *)currentViewController {
