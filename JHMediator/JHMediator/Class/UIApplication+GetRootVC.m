@@ -10,7 +10,13 @@
 
 @implementation UIApplication (GetRootVC)
 - (UIWindow *)mainWindow {
-    return self.delegate.window;
+//    if (@available(iOS 13, *)) {
+    for (UIWindow * obj in self.windows) {
+        if ([obj isKeyWindow]) {
+            return obj;
+        }
+    }
+//       return self.delegate.window;
 }
 
 - (UIViewController *)currentViewController {
