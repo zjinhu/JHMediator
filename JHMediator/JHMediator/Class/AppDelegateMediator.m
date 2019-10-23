@@ -161,7 +161,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wstrict-prototypes"
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)(void))completionHandler {
     for (id class in self.classes) {
         if ([class respondsToSelector:_cmd]) {
             [class application:application handleActionWithIdentifier:identifier forRemoteNotification:userInfo completionHandler:completionHandler];
@@ -169,7 +169,7 @@
     }
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void(^)())completionHandler API_AVAILABLE(ios(9.0)) {
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void(^)(void))completionHandler API_AVAILABLE(ios(9.0)) {
     for (id class in self.classes) {
         if ([class respondsToSelector:_cmd]) {
             [class application:application handleActionWithIdentifier:identifier forRemoteNotification:userInfo withResponseInfo:responseInfo completionHandler:completionHandler];
@@ -186,7 +186,7 @@
     }
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void(^)())completionHandler {
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void(^)(void))completionHandler {
     for (id class in self.classes) {
         if ([class respondsToSelector:_cmd]) {
             [class application:application handleActionWithIdentifier:identifier forLocalNotification:notification completionHandler:completionHandler];
@@ -194,7 +194,7 @@
     }
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forLocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void(^)())completionHandler API_AVAILABLE(ios(9.0)) {
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forLocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void(^)(void))completionHandler API_AVAILABLE(ios(9.0)) {
     for (id class in self.classes) {
         if ([class respondsToSelector:_cmd]) {
             [class application:application handleActionWithIdentifier:identifier forLocalNotification:notification withResponseInfo:responseInfo completionHandler:completionHandler];
