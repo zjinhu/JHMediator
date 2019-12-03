@@ -73,6 +73,10 @@
 		8574B6CB20FF26DC00F3EB05 /* JHMediator */ = {
 			isa = PBXGroup;
 			children = (
+				9191B7AB223B529600A42CD9 /* AppDelegateMediator.h */,
+				9191B7AC223B529600A42CD9 /* AppDelegateMediator.m */,
+				8574B6E620FF278000F3EB05 /* UIApplication+GetRootVC.h */,
+				8574B6E720FF278000F3EB05 /* UIApplication+GetRootVC.m */,
 				8574B6E220FF26EB00F3EB05 /* Class */,
 				8574B6CC20FF26DC00F3EB05 /* AppDelegate.h */,
 				8574B6CD20FF26DC00F3EB05 /* AppDelegate.m */,
@@ -96,10 +100,6 @@
 			children = (
 				8574B6E320FF270B00F3EB05 /* JHMediator.h */,
 				8574B6E420FF270B00F3EB05 /* JHMediator.m */,
-				9191B7AB223B529600A42CD9 /* AppDelegateMediator.h */,
-				9191B7AC223B529600A42CD9 /* AppDelegateMediator.m */,
-				8574B6E620FF278000F3EB05 /* UIApplication+GetRootVC.h */,
-				8574B6E720FF278000F3EB05 /* UIApplication+GetRootVC.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";

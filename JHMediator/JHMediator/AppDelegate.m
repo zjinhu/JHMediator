@@ -17,9 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[AppDelegateMediator sharedInstance] registerModuleWithClass:@"TModule"];
-    [[AppDelegateMediator sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
-     [[AppDelegateMediator sharedInstance] removeModuleWithClass:@"TModule"];
+//    [[AppDelegateMediator sharedInstance] registerModuleWithClass:@"TModule"];
+//    [[AppDelegateMediator sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+//     [[AppDelegateMediator sharedInstance] removeModuleWithClass:@"TModule"];
     return YES;
 }
 
@@ -43,7 +43,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [[AppDelegateMediator sharedInstance] applicationDidBecomeActive:application];
+//    [[AppDelegateMediator sharedInstance] applicationDidBecomeActive:application];
 }
 
 

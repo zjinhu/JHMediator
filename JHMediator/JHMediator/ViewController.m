@@ -17,15 +17,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    UIViewController *vc = [JHMediator initVC:@"OneViewController"];
-//    [self presentViewController:vc animated:YES completion:^{ }];
-//
-//    [JHMediator basePush:@"OneViewController" dic:nil];
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//        [JHMediator basePresent:@"One1ViewController" dic:nil];
-    });
+
+    
+    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeSystem];
+    btn1.backgroundColor = [UIColor cyanColor];
+    [self.view addSubview:btn1];
+    btn1.tag = 1;
+    btn1.frame = CGRectMake(10, 100, 150, 44);
+    [btn1 setTitle:@"跳转页面 Present" forState:UIControlStateNormal];
+    [btn1 addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeSystem];
+    btn2.backgroundColor = [UIColor cyanColor];
+    [self.view addSubview:btn2];
+    btn2.tag = 2;
+    btn2.frame = CGRectMake(200, 100, 150, 44);
+    [btn2 setTitle:@"跳转页面 Push" forState:UIControlStateNormal];
+    [btn2 addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
 //    Class p = NSClassFromString(@"OneViewController");
 //    objc_msgSend([p new], sel_registerName("getMessage"));
@@ -81,6 +91,20 @@
 //    int value123Return = GetValue(value123, int);
 //    NSLog(@"value123Return = %d", value123Return);
 
+}
+
+- (void)backButtonClicked:(UIButton *)btn {
+
+    switch (btn.tag) {
+        case 1:
+            [JHMediator basePresent:@"OneViewController" dic:nil];
+            break;
+        case 2:
+            [JHMediator basePush:@"OneViewController" dic:nil];
+            break;
+        default:
+            break;
+    }
 }
 
 - (int)Param:(int)a string:(NSString *)str point:(CGPoint)point block:(int (^)(NSString *, int))block {

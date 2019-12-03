@@ -16,7 +16,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"OneViewController";
     self.view.backgroundColor = [UIColor yellowColor];
+    
+    
+    
     // Do any additional setup after loading the view.
 }
 

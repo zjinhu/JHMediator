@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface OneViewController : UIViewController
+
+@property (nonatomic ,strong) NSString *message;
+@property (nonatomic ,strong) NSDictionary *messageDic;
+
 -(void)getMessage;
 +(NSString *)setMessage;
 @end

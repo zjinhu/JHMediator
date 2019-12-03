@@ -24,8 +24,8 @@ if (@available(iOS 11.0, *)) {\
 (*((Type *)par));\
 })\
 
-#import "UIApplication+GetRootVC.h"
-#import "AppDelegateMediator.h"
+
+
 @interface JHMediator : NSObject
 
 
@@ -100,4 +100,11 @@ if (@available(iOS 11.0, *)) {\
                    Selector:(NSString *)selector
                      Prarms:(NSArray*)params;
 
+
+/// 获取当前window
++ (UIWindow *)mainWindow;
+/// 获取当前最上层VC
++ (UIViewController *)currentViewController;
+/// 获取当前导航栏VC
++ (UINavigationController *)currentNavigationController;
 @end
