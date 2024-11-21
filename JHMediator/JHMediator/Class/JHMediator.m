@@ -339,12 +339,25 @@
 #pragma mark - 获取当前顶层VC
 + (UIWindow *)mainWindow {
     //适配iOS13的 SceneDelegate， AppDelegate添加 @property (strong, nonatomic) UIWindow *window;
-    for (UIWindow * obj in [UIApplication sharedApplication].windows) {
-        if (obj.windowLevel == UIWindowLevelNormal) {
-            return obj;
+    if (@available(iOS 13.0, *)) {
+        NSSet *connectedScenes = [UIApplication sharedApplication].connectedScenes;
+        for (UIScene *scene in connectedScenes) {
+            if ([scene isKindOfClass:[UIWindowScene class]]) {
+                UIWindowScene *windowScene = (UIWindowScene *)scene;
+                if (windowScene.activationState == UISceneActivationStateForegroundActive ||
+                    windowScene.activationState == UISceneActivationStateForegroundInactive) {
+                    for (UIWindow *window in windowScene.windows) {
+                        if (window.isKeyWindow) {
+                            return window;
+                        }
+                    }
+                }
+            }
         }
+        return nil;
+    } else {
+        return [UIApplication sharedApplication].keyWindow;
     }
-    return [UIApplication sharedApplication].keyWindow;
 }
 
 + (UIViewController *)currentViewController {
